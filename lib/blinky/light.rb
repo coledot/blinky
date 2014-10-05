@@ -1,8 +1,9 @@
 module Blinky
   class Light
 
-    def initialize device_handle, recipe, plugins
-      @handle = device_handle
+    def initialize device, recipe, plugins
+      @device = device
+      @handle = device.open
       self.extend(recipe)   
       plugins.each do |plugin|
         self.extend(plugin)
