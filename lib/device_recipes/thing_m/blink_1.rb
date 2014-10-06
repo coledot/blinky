@@ -9,6 +9,8 @@ module Blinky
 
       def failure!
         stop
+        #set_colour("\xFF\x00\x00") # todo? pulse?
+        set_flash_pattern("\xFF\x00\x00")
         play
       end
 
@@ -19,7 +21,7 @@ module Blinky
 
       def warning!
         stop
-        set_colour("\xFF\x2A\x00")
+        set_colour("\xFF\xFF\x00")
       end
 
       def off!
