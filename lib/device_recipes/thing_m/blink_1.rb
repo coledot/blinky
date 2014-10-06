@@ -9,9 +9,7 @@ module Blinky
 
       def failure!
         stop
-        #set_colour("\xFF\x00\x00") # todo? pulse?
-        set_flash_pattern("\xFF\x00\x00")
-        play
+        set_colour("\xFF\x00\x00")
       end
 
       def building!
