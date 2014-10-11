@@ -16,7 +16,7 @@ module Blinky
       end
 
       begin
-        run_every 15
+        run_every 1
       rescue => e
         warning!
         raise e
