@@ -4,22 +4,22 @@ module Blinky
 
       def success!
         stop
-        set_colour("\x00\xFF\x00")
+        set_colour("\x00\x88\x00")
       end
 
       def failure!
         stop
-        set_colour("\xFF\x00\x00")
+        set_colour("\x88\x00\x00")
       end
 
       def building!
         stop
-        set_colour("\x00\x00\xFF")
+        set_colour("\x00\x00\x88")
       end
 
       def warning!
         stop
-        set_colour("\xFF\xFF\x00")
+        set_colour("\x88\x88\x00")
       end
 
       def off!
