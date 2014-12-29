@@ -25,10 +25,14 @@ module Blinky
       (warning!  ; return) if project.nil?
       (building! ; return) if project.activity == 'Building'
 
+      mod_time = Time.parse project.last_build_time_str
+      # no activity for 8 hours -> dim light
+      intensity = ((Time.now - mod_time) <= 8*60*60) ? 192 : 32
+
       case project.last_build_status
-        when 'Success' then success!
-        when 'Failed'  then failure!
-        else                warning!
+        when 'Success' then success! intensity
+        when 'Failed'  then failure! intensity
+        else                warning! intensity
       end
     end
   end

@@ -1,25 +1,28 @@
 module Blinky
   module ThingM
     module Blink1
-
-      def success!
+      def success!(intensity= 255)
         stop
-        set_colour("\x00\xFF\x00")
+        colorstr = [0, intensity, 0].pack('c*')
+        set_colour(colorstr)
       end
 
-      def failure!
+      def failure!(intensity= 255)
         stop
-        set_colour("\xFF\x00\x00")
+        colorstr = [intensity, 0, 0].pack('c*')
+        set_colour(colorstr)
       end
 
-      def building!
+      def building!(intensity= 255)
         stop
-        set_colour("\x00\x00\xFF")
+        colorstr = [0, 0, intensity].pack('c*')
+        set_colour(colorstr)
       end
 
-      def warning!
+      def warning!(intensity= 255)
         stop
-        set_colour("\xFF\xFF\x00")
+        colorstr = [intensity, intensity, 0].pack('c*')
+        set_colour(colorstr)
       end
 
       def off!
