@@ -1,25 +1,34 @@
-require 'chicanery/cctray'
-require 'chicanery'
+require 'cctray'
 module Blinky
   module CCTrayServer
-    include Chicanery
-
     def watch_cctray_server url, options = {}
-      server Chicanery::Cctray.new 'blinky build', url, options
+      watched_project_name = options[:include]
+      tray = CCTray.new(url, options[:user], options[:password])
 
-      when_run do |current_state|
-        if current_state.building?
-          building!
-        else
-          current_state.has_failure? ? failure! : success!
+      while true
+        begin
+          projects = tray.fetch
+          watched_project_name ||= projects.first.name
+          watched_project = projects.select{ |p| p.name == watched_project_name }.first
+          light_for_project! watched_project
+        rescue StandardError => e
+          warning!
+          puts e # fixme log
+          sleep 30
         end
-      end
 
-      begin
-        run_every 1
-      rescue => e
-        warning!
-        raise e
+        sleep 1
+      end
+    end
+
+    def light_for_project! project
+      (warning!  ; return) if project.nil?
+      (building! ; return) if project.activity == 'Building'
+
+      case project.last_build_status
+        when 'Success' then success!
+        when 'Failed'  then failure!
+        else                warning!
       end
     end
   end
