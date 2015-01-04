@@ -1,6 +1,10 @@
 require 'cctray'
 module Blinky
   module CCTrayServer
+    INTENSITY_LOW    = 8
+    INTENSITY_MEDIUM = 24
+    INTENSITY_HIGH   = 56
+
     def watch_cctray_server url, options = {}
       watched_project_name = options[:include]
       tray = CCTray.new(url, options[:user], options[:password])
@@ -26,8 +30,12 @@ module Blinky
       (building! ; return) if project.activity == 'Building'
 
       mod_time = Time.parse project.last_build_time_str
-      # no activity for 8 hours -> dim light
-      intensity = ((Time.now - mod_time) <= 8*60*60) ? 192 : 32
+      # < 8 hours (recent) -> bright
+      # no activity for 8 hours  -> dim light
+      # no activity for 24 hours -> very dim light
+      delta = Time.now - mod_time
+      intensity = (delta > 24*60*60) ? INTENSITY_LOW    :
+                  ((delta > 8*60*60) ? INTENSITY_MEDIUM : INTENSITY_HIGH)
 
       case project.last_build_status
         when 'Success' then success! intensity
