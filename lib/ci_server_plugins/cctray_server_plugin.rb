@@ -1,9 +1,9 @@
 require 'cctray'
 module Blinky
   module CCTrayServer
-    INTENSITY_LOW    = 8
+    INTENSITY_LOW    = 4
     INTENSITY_MEDIUM = 24
-    INTENSITY_HIGH   = 56
+    INTENSITY_HIGH   = 48
 
     def watch_cctray_server url, options = {}
       watched_project_name = options[:include]
