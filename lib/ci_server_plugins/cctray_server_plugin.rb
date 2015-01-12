@@ -39,7 +39,7 @@ module Blinky
 
       case project.last_build_status
         when 'Success' then success! intensity
-        when 'Failed'  then failure! intensity
+        when 'Failure' then failure! intensity
         else                warning! intensity
       end
     end
